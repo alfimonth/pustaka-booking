@@ -1,8 +1,6 @@
 <?php
 
-namespace App\Controllers;
-
-class Contoh1 extends BaseController
+class Contoh1 extends CI_Controller
 {
     public function index()
     {

@@ -1,110 +1,114 @@
 <?php
+/**
+ * CodeIgniter
+ *
+ * An open source application development framework for PHP
+ *
+ * This content is released under the MIT License (MIT)
+ *
+ * Copyright (c) 2019 - 2022, CodeIgniter Foundation
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ *
+ * @package	CodeIgniter
+ * @author	EllisLab Dev Team
+ * @copyright	Copyright (c) 2008 - 2014, EllisLab, Inc. (https://ellislab.com/)
+ * @copyright	Copyright (c) 2014 - 2019, British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright	Copyright (c) 2019 - 2022, CodeIgniter Foundation (https://codeigniter.com/)
+ * @license	https://opensource.org/licenses/MIT	MIT License
+ * @link	https://codeigniter.com
+ * @since	Version 1.0.0
+ * @filesource
+ */
+defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * This file is part of CodeIgniter 4 framework.
+ * CodeIgniter Cookie Helpers
  *
- * (c) CodeIgniter Foundation <admin@codeigniter.com>
- *
- * For the full copyright and license information, please view
- * the LICENSE file that was distributed with this source code.
+ * @package		CodeIgniter
+ * @subpackage	Helpers
+ * @category	Helpers
+ * @author		EllisLab Dev Team
+ * @link		https://codeigniter.com/userguide3/helpers/cookie_helper.html
  */
 
-use Config\App;
-use Config\Cookie;
-use Config\Services;
+// ------------------------------------------------------------------------
 
-// =============================================================================
-// CodeIgniter Cookie Helpers
-// =============================================================================
-
-if (! function_exists('set_cookie')) {
-    /**
-     * Set cookie
-     *
-     * Accepts seven parameters, or you can submit an associative
-     * array in the first parameter containing all the values.
-     *
-     * @param array|string $name     Cookie name or array containing binds
-     * @param string       $value    The value of the cookie
-     * @param string       $expire   The number of seconds until expiration
-     * @param string       $domain   For site-wide cookie. Usually: .yourdomain.com
-     * @param string       $path     The cookie path
-     * @param string       $prefix   The cookie prefix ('': the default prefix)
-     * @param bool         $secure   True makes the cookie secure
-     * @param bool         $httpOnly True makes the cookie accessible via http(s) only (no javascript)
-     * @param string|null  $sameSite The cookie SameSite value
-     *
-     * @see \CodeIgniter\HTTP\Response::setCookie()
-     */
-    function set_cookie(
-        $name,
-        string $value = '',
-        string $expire = '',
-        string $domain = '',
-        string $path = '/',
-        string $prefix = '',
-        bool $secure = false,
-        bool $httpOnly = false,
-        ?string $sameSite = null
-    ) {
-        $response = Services::response();
-        $response->setCookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httpOnly, $sameSite);
-    }
+if ( ! function_exists('set_cookie'))
+{
+	/**
+	 * Set cookie
+	 *
+	 * Accepts seven parameters, or you can submit an associative
+	 * array in the first parameter containing all the values.
+	 *
+	 * @param	mixed
+	 * @param	string	the value of the cookie
+	 * @param	string	the number of seconds until expiration
+	 * @param	string	the cookie domain.  Usually:  .yourdomain.com
+	 * @param	string	the cookie path
+	 * @param	string	the cookie prefix
+	 * @param	bool	true makes the cookie secure
+	 * @param	bool	true makes the cookie accessible via http(s) only (no javascript)
+	 * @return	void
+	 */
+	function set_cookie($name, $value = '', $expire = '', $domain = '', $path = '/', $prefix = '', $secure = NULL, $httponly = NULL)
+	{
+		// Set the config file options
+		get_instance()->input->set_cookie($name, $value, $expire, $domain, $path, $prefix, $secure, $httponly);
+	}
 }
 
-if (! function_exists('get_cookie')) {
-    /**
-     * Fetch an item from the $_COOKIE array
-     *
-     * @param string      $index
-     * @param string|null $prefix Cookie name prefix.
-     *                            '': the prefix in Config\Cookie
-     *                            null: no prefix
-     *
-     * @return array|string|null
-     *
-     * @see \CodeIgniter\HTTP\IncomingRequest::getCookie()
-     */
-    function get_cookie($index, bool $xssClean = false, ?string $prefix = '')
-    {
-        if ($prefix === '') {
-            /** @var Cookie|null $cookie */
-            $cookie = config('Cookie');
+// --------------------------------------------------------------------
 
-            // @TODO Remove Config\App fallback when deprecated `App` members are removed.
-            $prefix = $cookie instanceof Cookie ? $cookie->prefix : config(App::class)->cookiePrefix;
-        }
-
-        $request = Services::request();
-        $filter  = $xssClean ? FILTER_SANITIZE_FULL_SPECIAL_CHARS : FILTER_DEFAULT;
-
-        return $request->getCookie($prefix . $index, $filter);
-    }
+if ( ! function_exists('get_cookie'))
+{
+	/**
+	 * Fetch an item from the COOKIE array
+	 *
+	 * @param	string
+	 * @param	bool
+	 * @return	mixed
+	 */
+	function get_cookie($index, $xss_clean = NULL)
+	{
+		is_bool($xss_clean) OR $xss_clean = (config_item('global_xss_filtering') === TRUE);
+		$prefix = isset($_COOKIE[$index]) ? '' : config_item('cookie_prefix');
+		return get_instance()->input->cookie($prefix.$index, $xss_clean);
+	}
 }
 
-if (! function_exists('delete_cookie')) {
-    /**
-     * Delete a cookie
-     *
-     * @param mixed  $name
-     * @param string $domain the cookie domain. Usually: .yourdomain.com
-     * @param string $path   the cookie path
-     * @param string $prefix the cookie prefix
-     *
-     * @see \CodeIgniter\HTTP\Response::deleteCookie()
-     */
-    function delete_cookie($name, string $domain = '', string $path = '/', string $prefix = '')
-    {
-        Services::response()->deleteCookie($name, $domain, $path, $prefix);
-    }
-}
+// --------------------------------------------------------------------
 
-if (! function_exists('has_cookie')) {
-    /**
-     * Checks if a cookie exists by name.
-     */
-    function has_cookie(string $name, ?string $value = null, string $prefix = ''): bool
-    {
-        return Services::response()->hasCookie($name, $value, $prefix);
-    }
+if ( ! function_exists('delete_cookie'))
+{
+	/**
+	 * Delete a COOKIE
+	 *
+	 * @param	mixed
+	 * @param	string	the cookie domain. Usually: .yourdomain.com
+	 * @param	string	the cookie path
+	 * @param	string	the cookie prefix
+	 * @return	void
+	 */
+	function delete_cookie($name, $domain = '', $path = '/', $prefix = '')
+	{
+		set_cookie($name, '', '', $domain, $path, $prefix);
+	}
 }

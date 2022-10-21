@@ -1,7 +1,6 @@
 <html>
 
 <head>
-    41
     <title>Tampil Data Matakuliah</title>
 </head>
 

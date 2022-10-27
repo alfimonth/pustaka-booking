@@ -1,0 +1,26 @@
+body {
+	background-color: green;
+}
+
+.container {
+	background-color: #fff;
+	border: 1px solid black;
+	width: fit-content;
+	padding: 10px;
+	border-radius: 10px;
+	margin: 20px auto;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+.m {
+	min-width: 300px;
+}
+
+h1 {
+	font-size: 18px;
+	text-align: center;
+}
+
+table {
+	margin: 0 auto;
+}

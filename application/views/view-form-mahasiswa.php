@@ -2,19 +2,22 @@
 
 <head>
     <title>Form Input Matakuliah</title>
-    <style>
-        h1 {
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="<?= base_url('assets/css/mahasiswa.css') ?>">
 </head>
 
 <body>
-    <h1>Digital Learning Management System (Di-Lemas)</h1>
-    <center>
+    <div class="container">
+        <h1>Digital Learning Management System </h1>
+        <h1>(Di-Lemas)</h1>
+
 
         <form action="<?= base_url('mahasiswa/cetak'); ?>" method="post">
             <table>
+                <tr>
+                    <td colspan="3">
+                        <hr>
+                    </td>
+                </tr>
                 <tr>
                     <td>Nama Mahasiswa</td>
                     <td>:</td>
@@ -66,6 +69,7 @@
                             <option value="Hindu">Hindu</option>
                             <option value="Protestan">Protestan</option>
                             <option value="Khonghucu">Khonghucu</option>
+                            <option value="" selected>Pilih</option>
                         </select>
                     </td>
                 </tr>
@@ -81,7 +85,8 @@
                 </tr>
             </table>
         </form>
-    </center>
+    </div>
+
 </body>
 
 </html>

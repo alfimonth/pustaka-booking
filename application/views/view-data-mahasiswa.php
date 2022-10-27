@@ -2,17 +2,18 @@
 
 <head>
     <title>Tampil Data Mahasiswa</title>
-    <style>
-        h1 {
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="<?= base_url('assets/css/mahasiswa.css') ?>">
 </head>
 
 <body>
-    <center>
+    <div class="container m">
         <h1>Data Mahasiswa</h1>
         <table>
+            <tr>
+                <td colspan="3">
+                    <hr>
+                </td>
+            </tr>
             <tr>
                 <td>Nama Mahasiswa</td>
                 <td>:</td>
@@ -66,7 +67,7 @@
 
             </tr>
         </table>
-    </center>
+    </div>
 </body>
 
 </html>

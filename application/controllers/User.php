@@ -47,7 +47,7 @@ class User extends CI_Controller
             if ($upload_image) {
                 $config['upload_path'] = './assets/img/profile/';
                 $config['allowed_types'] = 'gif|jpg|png';
-                $config['max_size'] = '3000';
+                $config['max_size'] = '4000';
                 $config['max_width'] = '1024';
                 $config['max_height'] = '1000';
                 $config['file_name'] = 'pro' . time();

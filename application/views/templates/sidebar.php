@@ -49,19 +49,19 @@
 
     <!-- <li class="nav-item active"> -->
 
-    <li class="nav-item <?= ($judul == 'Data Pinjam') ? 'active' : null ?>">
+    <li class="nav-item <?= ($judul == 'Laporan Data Buku') ? 'active' : null ?>">
         <a href="<?= base_url('laporan/laporan_buku') ?>" class="nav-link pb-0">
             <i class="fa fa-fw fa-address-book"></i>
             <span>Laporan Data Buku</span>
         </a>
     </li>
-    <li class="nav-item <?= ($judul == 'Daftar Booking') ? 'active' : null ?>">
+    <li class="nav-item <?= ($judul == '404') ? 'active' : null ?>">
         <a href="<?= base_url('laporan/laporan_anggota') ?>" class="nav-link pb-0">
             <i class="fa fa-fw fa-address-book"></i>
             <span>Laporan Data Anggota</span>
         </a>
     </li>
-    <li class="nav-item <?= ($judul == 'Daftar Booking') ? 'active' : null ?>">
+    <li class="nav-item <?= ($judul == 'Laporan Data Peminjaman') ? 'active' : null ?>">
         <a href="<?= base_url('laporan/laporan_pinjam') ?>" class="nav-link pb-0">
             <i class="fa fa-fw fa-address-book"></i>
             <span>Laporan Peminjaman</span>
